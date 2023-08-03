@@ -1,9 +1,9 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get } from '@nestjs/common';
+
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { GetUser } from '../decorators/get-user.decorator';
-
+import { Auth } from '../decorators';
 import { AuthHistoryService } from '../services';
 import { User } from '../entities/user.entity';
 import { History } from '../entities';
@@ -14,7 +14,7 @@ export class AuthHistoryController {
   constructor(private readonly authHistoryService: AuthHistoryService) {}
 
   @Get('/')
-  @UseGuards(AuthGuard())
+  @Auth()
   @ApiBearerAuth()
   @ApiResponse({ status: 200, description: 'ok', type: [History] })
   @ApiResponse({ status: 400, description: 'Bad Request' })
@@ -24,7 +24,7 @@ export class AuthHistoryController {
   }
 
   @Get('all')
-  @UseGuards(AuthGuard())
+  @Auth()
   @ApiBearerAuth()
   @ApiResponse({ status: 200, description: 'ok', type: [History] })
   @ApiResponse({ status: 400, description: 'Bad Request' })

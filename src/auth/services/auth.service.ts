@@ -10,9 +10,10 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
 import { User } from '../entities';
-import { LoginUserDto, CreateUserDto } from '../dto';
+import { LoginUserDto, CreateUserDto, UserDto } from '../dto';
 import { JwtPayload } from '../interfaces/jwt-payload.interface';
 import { AuthHistoryService } from './auth-history.service';
+import { ResponseUser } from '../interfaces';
 
 @Injectable()
 export class AuthService {
@@ -39,11 +40,11 @@ export class AuthService {
     }
   }
 
-  async login(loginUserDto: LoginUserDto) {
+  async login(loginUserDto: LoginUserDto): Promise<ResponseUser> {
     const { password, email } = loginUserDto;
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true, id: true },
+      select: { email: true, username: true, password: true, id: true },
     });
 
     if (!user) throw new UnauthorizedException('Credentials are not valid');
@@ -52,10 +53,20 @@ export class AuthService {
       await this.authHistoryService.createHistory(user);
       throw new UnauthorizedException('Credentials are not valid');
     }
+    const { username, id } = user;
 
     return {
-      ...user,
-      token: this.getJwtToken({ email: user.email, username: user.username }),
+      user: { id, username, email },
+      token: this.getJwtToken({ email, username }),
+    };
+  }
+
+  async checkAuthStatus(user: UserDto) {
+    const { username, id, email } = user;
+
+    return {
+      user: { id, username, email },
+      token: this.getJwtToken({ email, username }),
     };
   }
 
