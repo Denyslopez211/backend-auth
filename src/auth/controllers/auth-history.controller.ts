@@ -5,8 +5,8 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../decorators/get-user.decorator';
 import { Auth } from '../decorators';
 import { AuthHistoryService } from '../services';
-import { User } from '../entities/user.entity';
-import { History } from '../entities';
+
+import { UserHistoryDto } from '../dto/user-history.dto';
 
 @ApiTags('Auth-history')
 @Controller('auth-history')
@@ -16,17 +16,21 @@ export class AuthHistoryController {
   @Get('/')
   @Auth()
   @ApiBearerAuth()
-  @ApiResponse({ status: 200, description: 'ok', type: [History] })
+  @ApiResponse({ status: 200, description: 'ok', type: [UserHistoryDto] })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
-  getForUserHistory(@GetUser() user: User) {
-    return this.authHistoryService.getForUserHistory(user);
+  getForUserHistory(@GetUser() id: string) {
+    return this.authHistoryService.getForUserHistory(id);
   }
 
   @Get('all')
   @Auth()
   @ApiBearerAuth()
-  @ApiResponse({ status: 200, description: 'ok', type: [History] })
+  @ApiResponse({
+    status: 200,
+    description: 'ok',
+    type: [UserHistoryDto],
+  })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   getAllHistory() {

@@ -7,25 +7,31 @@ import {
   MinLength,
 } from 'class-validator';
 
+import { MESSAGE } from '../constants';
+
 export class LoginUserDto {
   @ApiProperty({
     example: 'denyslopez21@gmail.com',
     description: 'Username',
   })
   @IsString()
-  @IsEmail()
+  @IsEmail(
+    {},
+    {
+      message: MESSAGE.validCredential,
+    },
+  )
   email: string;
 
   @ApiProperty({
-    example: 'D3ni5l0p3z21',
+    example: 'Abc123456',
     description: 'Password',
   })
   @IsString()
   @MinLength(6)
   @MaxLength(50)
   @Matches(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message:
-      'The password must have a Uppercase, lowercase letter and a number',
+    message: MESSAGE.validCredential,
   })
   password: string;
 }

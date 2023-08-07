@@ -3,12 +3,10 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { History } from './history.entity';
-import { Role } from './role.entity';
 
 @Entity('users')
 export class User {
@@ -29,9 +27,6 @@ export class User {
 
   @OneToMany(() => History, (history) => history.user)
   history: History;
-
-  @ManyToOne(() => Role, (role) => role.user, { eager: true })
-  role: Role;
 
   @BeforeInsert()
   @BeforeUpdate()

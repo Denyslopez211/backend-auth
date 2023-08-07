@@ -9,7 +9,6 @@ import {
 import { Auth } from '../decorators';
 import { GetUser } from '../decorators/get-user.decorator';
 import { AuthService } from '../services';
-import { User } from '../entities';
 import { CreateUserDto, LoginUserDto, ResponseUserDto } from '../dto';
 
 @ApiTags('Auth')
@@ -18,8 +17,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @Auth()
-  @ApiBearerAuth()
+  // @ApiExcludeEndpoint()
   @ApiResponse({ status: 201, description: 'User was created' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   createUser(@Body() createUserDto: CreateUserDto) {
@@ -37,16 +35,10 @@ export class AuthController {
     return this.authService.login(loginUserDto);
   }
 
-  @Get('user')
-  @Auth()
-  @ApiExcludeEndpoint()
-  getUser(@GetUser() user: User) {
-    return user;
-  }
-
   @Get('check-token')
+  @ApiBearerAuth()
   @Auth()
-  checkTokenUser(@GetUser() user: User) {
-    return this.authService.checkAuthStatus(user);
+  checkTokenUser(@GetUser() idUser: string) {
+    return this.authService.checkAuthStatus(idUser);
   }
 }

@@ -1,41 +1,42 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto } from '../dto';
 import { History } from '../entities';
+import { UserHistoryDto } from '../dto/user-history.dto';
+import { UtilsService } from './utils.service';
+import { TYPE_TRIED } from '../constants';
 
 @Injectable()
 export class AuthHistoryService {
   constructor(
     @InjectRepository(History)
     private readonly historyRepository: Repository<History>,
+    private readonly utilsService: UtilsService,
   ) {}
 
-  async createHistory(loginUserDto: CreateUserDto): Promise<void> {
+  async createHistory(
+    loginUserDto: CreateUserDto,
+    typeTried: TYPE_TRIED,
+  ): Promise<void> {
     try {
       const history = this.historyRepository.create({
-        description: 'Failed login',
+        description: typeTried,
         user: loginUserDto,
       });
 
       await this.historyRepository.save(history);
     } catch (error) {
-      console.log(error);
-      this.handleDBError(error);
+      this.utilsService.handleDBError(error);
     }
   }
 
-  async getAllHistory(): Promise<History[]> {
-    return await this.historyRepository.find();
+  async getAllHistory(): Promise<UserHistoryDto[]> {
+    return this.utilsService.queryHistoryUser();
   }
 
-  async getForUserHistory(user: CreateUserDto): Promise<History[]> {
-    return this.historyRepository.find({ where: { user } });
-  }
-
-  private handleDBError(error: any): never {
-    console.log(error);
-    throw new InternalServerErrorException('Please check server logs');
+  async getForUserHistory(userId: string): Promise<UserHistoryDto[]> {
+    return this.utilsService.queryHistoryUser(userId);
   }
 }

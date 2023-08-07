@@ -4,28 +4,34 @@
 
 # Chek API
 
-1.Clonar proyecto.
+## Description
+
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+
+1. Clonar proyecto.
 
 ```
 yarn install
 ```
 
-2.Clonar el archivo `.env.xample` y renombrarlo a `.env`
+2. Clonar el archivo `.env.xample` y renombrarlo a `.env`
 
-3.Cambiar las variables de entorno
+3. Cambiar las variables de entorno
 
-4.Get up the database.
+4. Get up the database.
 
 ```
 docker-compose up -d
 ```
 
-5.Get up development:
+5. Get up development:
 
 ```
 yarn start:dev
 ```
 
-6.Document swagger: `http://localhost:3001/api-doc`
+6. Document swagger: `http://localhost:3001/api-doc`
 
-7.Document json swagger: `http://localhost:3001/api-doc-json`
+7. Document json swagger: `http://localhost:3001/api-doc-json`
+
+8. 
