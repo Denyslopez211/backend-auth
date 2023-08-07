@@ -1,10 +1,5 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiExcludeEndpoint,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { Auth } from '../decorators';
 import { GetUser } from '../decorators/get-user.decorator';
