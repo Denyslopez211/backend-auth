@@ -6,7 +6,7 @@
 
 ## Modelo
 
-Modelo de proceso del API
+Api proccess model
 
 ![Model](./backend.png)
 
