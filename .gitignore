@@ -6,6 +6,7 @@ mysql_data/
 
 .env
 .env.prod
+.serverless/
 
 # Logs
 logs
