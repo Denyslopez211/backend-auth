@@ -4,6 +4,16 @@
 
 # Chek API
 
+## Modelo
+
+Modelo de proceso del API
+
+![Model](./backend.png)
+
+## Test production Swagger
+
+Open [swagger prod](https://kvmjwm83h8.execute-api.us-east-2.amazonaws.com/api-doc).
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
@@ -30,8 +40,8 @@ docker-compose up -d
 yarn start:dev
 ```
 
-6. Document swagger: `http://localhost:3001/api-doc`
+6. Document swagger:
+   Open [swagger local](http://localhost:3001/api-doc).
 
-7. Document json swagger: `http://localhost:3001/api-doc-json`
-
-8. 
+7. Document json swagger:
+   Open [swagger json local](http://localhost:3001/api-doc-json).

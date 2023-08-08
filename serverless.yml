@@ -1,0 +1,38 @@
+service: api-chek
+useDotenv: true
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  architecture: arm64
+  stage: production
+  region: us-east-2
+  memorySize: 2048
+  logRetentionInDays: 1
+  timeout: 15
+  environment:
+    PORT: ${env:PORT}
+    DB_HOST: ${env:DB_HOST}
+    DB_NAME: ${env:DB_NAME}
+    DB_USERNAME: ${env:DB_USERNAME}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_PORT: ${env:DB_PORT}
+    TYPEORM_SYNCHRONIZE: ${env:TYPEORM_SYNCHRONIZE}
+    JWT_SECRET_KEY: ${env:JWT_SECRET_KEY}
+    JWT_EXPIRE: ${env:JWT_EXPIRE}
+    APP_NAME: ${env:APP_NAME}
+    APP_DESCRIPTION: ${env:APP_DESCRIPTION}
+    APP_VERSION: ${env:APP_VERSION}
+
+functions:
+  api:
+    handler: dist/lambda.handler
+    events:
+      - httpApi:
+          method: any
+          path: '/{proxy+}'
+plugins:
+  - serverless-jetpack
+  - serverless-offline
